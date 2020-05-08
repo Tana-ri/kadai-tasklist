@@ -79,6 +79,15 @@ class TasksController extends Controller
     function show($id)
     {
         $task = Task::find($id);
+        
+        //タスクを作った人のuserId
+        $taskUserId = $task->user_id;
+        //ログインしている人のuserId
+        $loginUserId = \Auth::id();
+        if($taskUserId != $loginUserId){
+            //トップに飛ばす
+            return redirect('/');
+        }
 
         return view('tasks.show', [
             'task' => $task,
